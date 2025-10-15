@@ -1186,19 +1186,31 @@ local function Hide(notify: boolean?)
         MPrompt.Title.TextTransparency = 1
         MPrompt.Visible = true
 
-        -- Fade MPrompt เพื่อให้จางลงแต่ยังมองเห็น
+        -- Fade MPrompt เพื่อให้จางลงสุดๆ แต่ยังคลิกได้
         TweenService:Create(MPrompt, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {
             Size = UDim2.new(0, 120, 0, 30),
             Position = UDim2.new(0.5, 0, 0, 20),
-            BackgroundTransparency = 0.7  -- จางลง 70% (ปรับได้ตามต้องการ)
+            BackgroundTransparency = 0.95  -- จางลงสุดๆ
         }):Play()
         TweenService:Create(MPrompt.Title, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {
-            TextTransparency = 0.5  -- จางข้อความลง 50%
+            TextTransparency = 0.95  -- ข้อความจางลงสุดๆ
         }):Play()
+        -- จัดการ UIStroke ของ MPrompt (กรอบสีขาว)
+        if MPrompt:FindFirstChild("UIStroke") then
+            TweenService:Create(MPrompt.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {
+                Transparency = 0.95  -- กรอบจางลง
+            }):Play()
+        end
         if MPrompt:FindFirstChild("Interact") then
             TweenService:Create(MPrompt.Interact, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {
-                BackgroundTransparency = 0.7  -- จางปุ่ม Interact
+                BackgroundTransparency = 0.95  -- ปุ่ม Interact จางลง
             }):Play()
+            -- จัดการ UIStroke ของ Interact (ถ้ามี)
+            if MPrompt.Interact:FindFirstChild("UIStroke") then
+                TweenService:Create(MPrompt.Interact.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {
+                    Transparency = 0.95
+                }):Play()
+            end
         end
     end
 
